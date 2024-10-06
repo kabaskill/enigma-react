@@ -6,6 +6,10 @@ export const KEYBOARD: { [key: string]: string } = {
     row3: "PYXCVBNML",
 };
 
+export const DIGITS : string = "1234567890";
+
+export const SPECIAL_CHARACTERS : string = "!@#$%^&*(){}[]=<>/,.";
+
 export const ROTORS: { [key: string]: string } = {
     I: "EKMFLGDQVZNTOWYHXUSPAIBRCJ",
     II: "AJDKSIRUXBLHWTMCQGZNPYFVOE",
