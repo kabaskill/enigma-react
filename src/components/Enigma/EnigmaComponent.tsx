@@ -14,10 +14,10 @@ const { ALPHABET } = data;
 export default function EnigmaComponent() {
     const { state, dispatch } = useEnigma();
     const { input, output, rotorSettings, plugboard } = state;
-    const pressedKeys = useRef(new Set<string>());
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-    const handleButtonPress = useCallback(
-        (char: string): void => {
+    const processChar = useCallback(
+        (char: string) => {
             if (ALPHABET.includes(char)) {
                 const cipheredChar = char === " " ? " " : cipher(char, rotorSettings, plugboard);
                 const newInput = input + char;
@@ -36,38 +36,43 @@ export default function EnigmaComponent() {
                     }
                 }
                 dispatch({ type: "SET_ROTOR_SETTINGS", payload: newSettings });
-
-                pressedKeys.current.add(char);
             }
         },
         [input, output, rotorSettings, plugboard, dispatch]
     );
 
-    // KEYBOARD FUNCTIONALITY
-    useEffect(() => {
-        const handleKeyDown = (event: KeyboardEvent) => {
-            const char = event.key.toUpperCase();
-            if (ALPHABET.includes(char)) {
-                handleButtonPress(char);
+    const handleInputChange = useCallback(
+        (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+            const newInput = event.target.value;
+            if (newInput.length > input.length) {
+                const lastChar = newInput.slice(-1).toUpperCase();
+                processChar(lastChar);
+            } else {
+                dispatch({ type: "SET_INPUT", payload: newInput });
             }
-        };
+        },
+        [input, processChar, dispatch]
+    );
 
-        const handleKeyUp = (event: KeyboardEvent) => {
-            const char = event.key.toUpperCase();
-            if (ALPHABET.includes(char)) {
-                pressedKeys.current.delete(char);
-            }
+    const handleButtonPress = useCallback(
+        (char: string) => {
+            processChar(char.toUpperCase());
+            textareaRef.current?.focus();
+        },
+        [processChar]
+    );
+
+    useEffect(() => {
+        const handleKeyUp = () => {
             dispatch({ type: "SET_ACTIVE_LAMP", payload: null });
         };
 
-        window.addEventListener("keydown", handleKeyDown);
         window.addEventListener("keyup", handleKeyUp);
 
         return () => {
-            window.removeEventListener("keydown", handleKeyDown);
             window.removeEventListener("keyup", handleKeyUp);
         };
-    }, [dispatch, handleButtonPress]);
+    }, [dispatch]);
 
     return (
         <section className={cn("grid grid-cols-3 gap-4")}>
@@ -87,10 +92,17 @@ export default function EnigmaComponent() {
             <div className="col-span-1 size-full p-2 flex flex-col justify-around">
                 <Controls />
                 <div className="size-full">
-                    <h2 className="font-bold mb-2">Input:</h2>
-                    <p className="p-2 border rounded bg-gray-600 min-h-[100px] overflow-auto text-wrap">
-                        {input}
-                    </p>
+                    <label htmlFor="input-area" className="font-bold mb-2">
+                        Input:
+                        <textarea
+                            ref={textareaRef}
+                            name="input-area"
+                            id="input-area"
+                            className="p-2 border rounded bg-gray-600 min-h-[100px] w-full resize-none"
+                            value={input}
+                            onChange={handleInputChange}
+                        />
+                    </label>
                 </div>
                 <div className="size-full">
                     <h2 className="font-bold mb-2">Output:</h2>
