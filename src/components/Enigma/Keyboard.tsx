@@ -1,4 +1,3 @@
-import {cn} from "../../utils/cn";
 import {setActiveLamp} from "../../StateManager";
 import * as data from "../../data/constants";
 
@@ -10,27 +9,25 @@ interface KeyboardProps {
 
 export default function Keyboard({onButtonPress}: KeyboardProps) {
   return (
-    <div className="mb-4">
-      <h2 className="font-bold mb-2">Keyboard</h2>
-      <div className="flex flex-wrap justify-center">
+    <div className="mb-6">
+      <h2 className="enigma-header text-center mb-4">Keyboard</h2>
+      <div className="flex flex-col items-center gap-2">
         {Object.keys(KEYBOARD).map((row) => (
-          <div key={row} className="flex">
+          <div key={row} className="flex gap-1.5">
             {KEYBOARD[row].split("").map((char) => (
               <Button key={char} char={char} onButtonPress={onButtonPress} />
             ))}
           </div>
         ))}
+        <div className="mt-2">
+          <button
+            className="enigma-button w-32 h-12 text-sm"
+            onMouseDown={() => onButtonPress(" ")}
+          >
+            SPACE
+          </button>
+        </div>
       </div>
-      <button
-        className={cn(
-          "w-24 h-12 m-1 rounded-full bg-gray-600",
-          "hover:bg-gray-400 focus:outline-hidden",
-          "border-2 border-white"
-        )}
-        onMouseDown={() => onButtonPress(" ")}
-      >
-        SPACE
-      </button>
     </div>
   );
 }
@@ -38,11 +35,7 @@ export default function Keyboard({onButtonPress}: KeyboardProps) {
 function Button({char, onButtonPress}: {char: string; onButtonPress: (char: string) => void}) {
   return (
     <button
-      className={cn(
-        "w-12 h-12 m-1 rounded-full bg-gray-600",
-        "hover:bg-gray-400 focus:outline-hidden",
-        "border-2 border-white"
-      )}
+      className="enigma-button w-14 h-14"
       onMouseDown={() => onButtonPress(char)}
       onMouseUp={() => setActiveLamp(null)}
       onMouseLeave={() => setActiveLamp(null)}

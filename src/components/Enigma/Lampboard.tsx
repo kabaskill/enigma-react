@@ -1,22 +1,20 @@
 import {activeLamp} from "../../StateManager";
 import {cn} from "../../utils/cn";
-import {KEYBOARD } from "../../data/constants";
+import {KEYBOARD} from "../../data/constants";
 
 export default function Lampboard() {
   return (
-    <div className="mb-4 p-2  rounded">
-      <div className="flex flex-wrap justify-center">
+    <div className="mb-8 p-4 rounded-lg bg-zinc-900/50 border border-zinc-800">
+      <h2 className="enigma-header text-center mb-4">Lampboard</h2>
+      <div className="flex flex-col items-center gap-2">
         {Object.keys(KEYBOARD).map((row) => (
-          <div key={row} className="flex">
+          <div key={row} className="flex gap-1.5">
             {KEYBOARD[row].split("").map((char) => (
               <div
                 key={char}
                 className={cn(
-                 "w-12 h-12 m-1 rounded-full bg-gray-600",
-                 "flex items-center justify-center",
-                  activeLamp.value === char
-                    ? "bg-yellow-300 text-black border-yellow-500 shadow-amber-200 shadow-lg"
-                    : "bg-gray-700 text-white border-gray-600"
+                  "enigma-lamp w-14 h-14",
+                  activeLamp.value === char && "enigma-lamp-active"
                 )}
               >
                 {char}

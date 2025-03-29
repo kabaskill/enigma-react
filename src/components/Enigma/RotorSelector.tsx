@@ -19,32 +19,34 @@ export default function RotorSelector({index}: RotorSelectorProps) {
   }
 
   return (
-    <div className="flex flex-col items-center">
-      <label>
-        Rotor {3 - index}:
-        <select
-          value={rotorSettings.value[index].rotor}
-          onChange={handleRotorTypeChange}
-          className="ml-2 p-1 bg-gray-700 border rounded"
-        >
-          {Object.keys(ROTORS).map((rotorType) => (
-            <option key={rotorType} value={rotorType}>
-              {rotorType}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label className="mt-2">
-        Ring:
+    <div className="enigma-rotor w-28">
+      <div className="text-center mb-1">
+        <span className="enigma-label">Rotor {3 - index}</span>
+      </div>
+      
+      <select
+        value={rotorSettings.value[index].rotor}
+        onChange={handleRotorTypeChange}
+        className="enigma-input w-full text-center mb-3 py-1"
+      >
+        {Object.keys(ROTORS).map((rotorType) => (
+          <option key={rotorType} value={rotorType}>
+            {rotorType}
+          </option>
+        ))}
+      </select>
+      
+      <div className="flex items-center justify-between w-full">
+        <span className="enigma-label text-xs">Ring:</span>
         <input
           type="number"
           min="0"
           max="25"
           value={rotorSettings.value[index].ringSetting}
           onChange={handleRingSettingChange}
-          className="ml-2 p-1 w-16 bg-gray-700 border rounded"
+          className="enigma-input w-12 text-center py-1"
         />
-      </label>
+      </div>
     </div>
   );
 }
