@@ -38,7 +38,7 @@ export default function Plugboard() {
 
   return (
     <div className="mt-4">
-      <h2 className="font-bold mb-2">Plugboard</h2>
+      <h2 className="enigma-header text-center mb-4">Plugboard</h2>
       <Controls modName="plugboard" />
       <div className="flex flex-wrap justify-center mb-2 p-2 gap-2">
         {ALPHABET.split("").map((letter) => (

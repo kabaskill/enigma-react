@@ -2,7 +2,6 @@ import {useEffect, useRef} from "react";
 import {input, output, setInput, setActiveLamp, processChar} from "../../StateManager";
 import Lampboard from "./Lampboard";
 import Plugboard from "./Plugboard";
-import Controls from "./Controls";
 import KeyboardToggle from "./KeyboardToggle";
 import Reset from "./Reset";
 import RotorSection from "./RotorSection";
@@ -44,7 +43,7 @@ export default function EnigmaComponent() {
           <h2 className="enigma-header text-xl mb-6">Enigma</h2>
 
           <div className="flex justify-center gap-4 mb-8 mt-2">
-            <Controls modName="rotors" />
+       
             <RotorSection />
           </div>
 
