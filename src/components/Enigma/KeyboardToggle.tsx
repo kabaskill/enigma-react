@@ -1,13 +1,14 @@
-import { useState } from "react";
+import {useState} from "react";
 import Keyboard from "./Keyboard";
 import SimpleKeyboard from "../SimpleKeyboard/SimpleKeyboard";
-import { processChar } from "../../StateManager";
+import {processChar} from "../../StateManager";
+import ModuleWrapper from "./ModuleWrapper";
 
 interface KeyboardToggleProps {
   onButtonPress: (char: string) => void;
 }
 
-export default function KeyboardToggle({ onButtonPress }: KeyboardToggleProps) {
+export default function KeyboardToggle({onButtonPress}: KeyboardToggleProps) {
   const [useSimpleKeyboard, setUseSimpleKeyboard] = useState(false);
 
   const handleKeyboardChange = () => {
@@ -22,7 +23,7 @@ export default function KeyboardToggle({ onButtonPress }: KeyboardToggleProps) {
   };
 
   return (
-    <div className="mb-4">
+    <ModuleWrapper modName="keyboard">
       <div className="flex justify-end mb-2">
         <button
           onClick={handleKeyboardChange}
@@ -37,6 +38,6 @@ export default function KeyboardToggle({ onButtonPress }: KeyboardToggleProps) {
       ) : (
         <Keyboard onButtonPress={onButtonPress} />
       )}
-    </div>
+    </ModuleWrapper>
   );
 }

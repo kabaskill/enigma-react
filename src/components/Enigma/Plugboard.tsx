@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {plugboardMapping, connectPlugboardPair, disconnectPlugboardLetter} from "../../StateManager";
 import * as data from "../../data/constants";
-import Controls from "./Controls";
+import ModuleWrapper from "./ModuleWrapper";
 
 const {ALPHABET} = data;
 
@@ -37,9 +37,7 @@ export default function Plugboard() {
   }
 
   return (
-    <div className="mt-4">
-      <h2 className="enigma-header text-center mb-4">Plugboard</h2>
-      <Controls modName="plugboard" />
+    <ModuleWrapper modName="plugboard">
       <div className="flex flex-wrap justify-center mb-2 p-2 gap-2">
         {ALPHABET.split("").map((letter) => (
           <button
@@ -58,6 +56,6 @@ export default function Plugboard() {
       <div className="text-xs text-center text-gray-500 mt-2">
         Click two letters to connect them. Double-click to disconnect.
       </div>
-    </div>
+    </ModuleWrapper>
   );
 }

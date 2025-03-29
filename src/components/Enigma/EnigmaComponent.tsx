@@ -42,12 +42,8 @@ export default function EnigmaComponent() {
         <div className="flex flex-col items-center">
           <h2 className="enigma-header text-xl mb-6">Enigma</h2>
 
-          <div className="flex justify-center gap-4 mb-8 mt-2">
-       
+          <div className="w-full max-w-3xl mx-auto space-y-4">
             <RotorSection />
-          </div>
-
-          <div className="w-full max-w-3xl mx-auto">
             <Lampboard />
             <KeyboardToggle onButtonPress={handleButtonPress} />
             <Plugboard />

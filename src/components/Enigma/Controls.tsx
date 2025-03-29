@@ -1,12 +1,12 @@
-import {Eye, EyeOff, Power, PowerOff} from "lucide-react";
+import {ChevronDown} from "lucide-react";
 import {controls} from "../../StateManager";
+import {Modules} from "../../data/types";
+import {cn} from "../../utils/cn";
 
-type ModuleName = keyof typeof controls.value;
-
-export default function Controls({modName}: {modName: ModuleName}) {
-
+export default function Controls({modName}: {modName: Modules}) {
   return (
-    <div className="flex flex-col gap-2 mb-4">
+    <div className="w-full flex justify-between gap-4">
+      {/*    
       <button
         onClick={() => {
           controls.value = {
@@ -19,8 +19,9 @@ export default function Controls({modName}: {modName: ModuleName}) {
         }}
       >
         {controls.value[modName].show ? <Eye /> : <EyeOff />}
-      </button>
+      </button> */}
 
+      <h2 className="enigma-header">{modName}</h2>
       <button
         onClick={() => {
           controls.value = {
@@ -31,8 +32,12 @@ export default function Controls({modName}: {modName: ModuleName}) {
             },
           };
         }}
+        className={cn(
+          "transform transition duration-200 ease-in-out cursor-pointer",
+          controls.value[modName].active ? "rotate-180" : "rotate-0"
+        )}
       >
-        {controls.value[modName].active ? <Power /> : <PowerOff />}
+        <ChevronDown />
       </button>
     </div>
   );

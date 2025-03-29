@@ -10,7 +10,7 @@ interface KeyboardProps {
 export default function Keyboard({onButtonPress}: KeyboardProps) {
   return (
     <div className="mb-6">
-      <h2 className="enigma-header text-center mb-4">Keyboard</h2>
+ 
       <div className="flex flex-col items-center gap-2">
         {Object.keys(KEYBOARD).map((row) => (
           <div key={row} className="flex gap-1.5">
@@ -20,10 +20,7 @@ export default function Keyboard({onButtonPress}: KeyboardProps) {
           </div>
         ))}
         <div className="mt-2">
-          <button
-            className="enigma-button w-32 h-12 text-sm"
-            onMouseDown={() => onButtonPress(" ")}
-          >
+          <button className="enigma-button w-32 h-12 text-sm" onMouseDown={() => onButtonPress(" ")}>
             SPACE
           </button>
         </div>

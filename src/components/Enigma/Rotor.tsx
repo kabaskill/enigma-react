@@ -1,10 +1,11 @@
+import {X} from "lucide-react";
 import {rotorSettings, setRotorSettings, updateRotor, removeRotor, getAvailableRotors} from "../../StateManager";
 
 interface RotorSelectorProps {
   index: number;
 }
 
-export default function RotorSelector({index}: RotorSelectorProps) {
+export default function Rotor({index}: RotorSelectorProps) {
   const currentRotor = rotorSettings.value[index].rotor;
   // Get available rotors plus the currently selected one
   const availableRotors = getAvailableRotors(currentRotor);
@@ -26,12 +27,16 @@ export default function RotorSelector({index}: RotorSelectorProps) {
   const rotorNumber = rotorSettings.value.length - index;
 
   return (
-    <div className="enigma-rotor relative">
-      <div className="text-center mb-1 flex justify-between items-center">
-        <span className="enigma-label">Rotor {rotorNumber}</span>
+    <div className="enigma-rotor">
+      <div className="w-full flex justify-between items-center">
+        <p className="enigma-label">Rotor {rotorNumber}</p>
         {rotorSettings.value.length > 1 && (
-          <button onClick={handleRemove} className="text-red-500 hover:text-red-700 font-bold" title="Remove rotor">
-            ✕
+          <button
+            onClick={handleRemove}
+            className=" text-red-500 hover:text-red-700 cursor-pointer"
+            title="Remove rotor"
+          >
+            <X size={14} />
           </button>
         )}
       </div>

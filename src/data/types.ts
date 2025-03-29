@@ -16,3 +16,5 @@ export interface Control {
   show: boolean;
   active: boolean;
 }
+
+export type Modules = "rotors" | "reflector" | "plugboard" | "lampboard" | "keyboard" | "input" | "output";
