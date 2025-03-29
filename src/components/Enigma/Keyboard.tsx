@@ -16,7 +16,7 @@ export default function Keyboard({ onButtonPress }: KeyboardProps) {
         <button
             className={cn(
                 "w-12 h-12 m-1 rounded-full bg-gray-600",
-                "hover:bg-gray-400 focus:outline-none",
+                "hover:bg-gray-400 focus:outline-hidden",
                 "border-2 border-white"
             )}
             onMouseDown={() => onButtonPress(char)}
@@ -42,7 +42,7 @@ export default function Keyboard({ onButtonPress }: KeyboardProps) {
             <button
                 className={cn(
                     "w-24 h-12 m-1 rounded-full bg-gray-600",
-                    "hover:bg-gray-400 focus:outline-none",
+                    "hover:bg-gray-400 focus:outline-hidden",
                     "border-2 border-white"
                 )}
                 onMouseDown={() => onButtonPress(" ")}

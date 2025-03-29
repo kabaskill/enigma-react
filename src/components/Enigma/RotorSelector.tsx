@@ -24,7 +24,7 @@ export default function RotorSelector({ index }: { index: number }) {
             <select
                 value={state.rotorSettings[index].rotor}
                 onChange={handleRotorChange}
-                className="p-2 rounded h-full"
+                className="p-2 rounded-sm h-full"
             >
                 {Object.keys(ROTORS).map((rotor) => (
                     <option key={rotor} value={rotor}>
@@ -41,7 +41,7 @@ export default function RotorSelector({ index }: { index: number }) {
                     max="25"
                     value={state.rotorSettings[index].ringSetting}
                     onChange={handleRingSettingChange}
-                    className="px-1 border rounded"
+                    className="px-1 border rounded-sm"
                 />
             </label>
         </div>

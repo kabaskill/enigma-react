@@ -28,7 +28,7 @@ export default function Controls() {
                 onClick={handleReset}
                 className={cn(
                     "p-2 rounded-lg bg-gray-600",
-                    "hover:bg-gray-400 focus:outline-none",
+                    "hover:bg-gray-400 focus:outline-hidden",
                     "border-2 border-white"
                 )}
             >

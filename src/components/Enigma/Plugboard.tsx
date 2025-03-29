@@ -21,7 +21,7 @@ export default function Plugboard() {
                         <select
                             value={state.plugboard[i]?.from || ""}
                             onChange={(e) => handlePlugboardChange(i, "from", e.target.value)}
-                            className="mr-2 p-1 border rounded"
+                            className="mr-2 p-1 border rounded-sm"
                         >
                             <option value="">-</option>
                             {ALPHABET.split("").map((char) => (
@@ -33,7 +33,7 @@ export default function Plugboard() {
                         <select
                             value={state.plugboard[i]?.to || ""}
                             onChange={(e) => handlePlugboardChange(i, "to", e.target.value)}
-                            className="ml-2 p-1 border rounded"
+                            className="ml-2 p-1 border rounded-sm"
                         >
                             <option value="">-</option>
                             {ALPHABET.split("").map((char) => (
