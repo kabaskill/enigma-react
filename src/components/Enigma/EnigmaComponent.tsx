@@ -1,50 +1,14 @@
 import {useEffect, useRef} from "react";
-import {
-  input,
-  output,
-  rotorSettings,
-  plugboard,
-  setInput,
-  setOutput,
-  setActiveLamp,
-  setRotorSettings,
-} from "../../StateManager";
+import {input, output, setInput, setActiveLamp, processChar} from "../../StateManager";
 import {cn} from "../../utils/cn";
-import * as data from "../../data/constants";
-import {cipher} from "./enigmaHelpers";
 import RotorSelector from "./RotorSelector";
 import Lampboard from "./Lampboard";
 import Keyboard from "./Keyboard";
 import Plugboard from "./Plugboard";
 import Controls from "./Controls";
 
-const {ALPHABET} = data;
-
 export default function EnigmaComponent() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  function processChar(char: string) {
-    if (ALPHABET.includes(char) || char === " ") {
-      const cipheredChar = char === " " ? " " : cipher(char, rotorSettings.value, plugboard.value);
-      const newInput = input.value + char;
-      const newOutput = output.value + cipheredChar;
-      setInput(newInput);
-      setOutput(newOutput);
-      setActiveLamp(cipheredChar.toUpperCase());
-
-      if (char !== " ") {
-        const newSettings = [...rotorSettings.value];
-        newSettings[0].ringSetting = (newSettings[0].ringSetting + 1) % 26;
-        if (newSettings[0].ringSetting === 0) {
-          newSettings[1].ringSetting = (newSettings[1].ringSetting + 1) % 26;
-          if (newSettings[1].ringSetting === 0) {
-            newSettings[2].ringSetting = (newSettings[2].ringSetting + 1) % 26;
-          }
-        }
-        setRotorSettings(newSettings);
-      }
-    }
-  }
 
   function handleInputChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
     const newInput = event.target.value;
@@ -60,7 +24,6 @@ export default function EnigmaComponent() {
     processChar(char.toUpperCase());
     textareaRef.current?.focus();
   }
-
   useEffect(() => {
     function handleKeyUp() {
       setActiveLamp(null);

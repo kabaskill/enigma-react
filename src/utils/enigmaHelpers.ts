@@ -1,20 +1,15 @@
 // enigmaHelpers.ts
-import { PlugboardPair, RotorSetting } from '../../data/types';
-import * as data from '../../data/constants';
+import {PlugboardPair, RotorSetting} from "../data/types";
+import * as data from "../data/constants";
 
-const { ALPHABET, ROTORS, REFLECTOR } = data;
+const {ALPHABET, ROTORS, REFLECTOR} = data;
 
 export function applyPlugboard(char: string, plugboard: PlugboardPair[]): string {
   const pair = plugboard.find((p) => p.from === char || p.to === char);
   return pair ? (pair.from === char ? pair.to : pair.from) : char;
 }
 
-export function rotorPass(
-  char: string,
-  rotor: string,
-  ringSetting: number,
-  reverse: boolean = false
-): string {
+export function rotorPass(char: string, rotor: string, ringSetting: number, reverse: boolean = false): string {
   let index = ALPHABET.indexOf(char);
   index = (index + ringSetting + 26) % 26;
 
