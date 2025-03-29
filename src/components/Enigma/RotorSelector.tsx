@@ -1,15 +1,16 @@
-import {rotorSettings, setRotorSettings} from "../../StateManager";
-import {ROTORS} from "../../data/constants";
+import {rotorSettings, setRotorSettings, updateRotor, removeRotor, getAvailableRotors} from "../../StateManager";
 
 interface RotorSelectorProps {
   index: number;
 }
 
 export default function RotorSelector({index}: RotorSelectorProps) {
+  const currentRotor = rotorSettings.value[index].rotor;
+  // Get available rotors plus the currently selected one
+  const availableRotors = getAvailableRotors(currentRotor);
+
   function handleRotorTypeChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    const newSettings = [...rotorSettings.value];
-    newSettings[index].rotor = e.target.value;
-    setRotorSettings(newSettings);
+    updateRotor(index, e.target.value);
   }
 
   function handleRingSettingChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -18,24 +19,38 @@ export default function RotorSelector({index}: RotorSelectorProps) {
     setRotorSettings(newSettings);
   }
 
+  function handleRemove() {
+    removeRotor(index);
+  }
+
+  const rotorNumber = rotorSettings.value.length - index;
+
   return (
-    <div className="enigma-rotor w-28">
-      <div className="text-center mb-1">
-        <span className="enigma-label">Rotor {3 - index}</span>
+    <div className="enigma-rotor relative">
+      <div className="text-center mb-1 flex justify-between items-center">
+        <span className="enigma-label">Rotor {rotorNumber}</span>
+        {rotorSettings.value.length > 1 && (
+          <button onClick={handleRemove} className="text-red-500 hover:text-red-700 font-bold" title="Remove rotor">
+            ✕
+          </button>
+        )}
       </div>
-      
+
       <select
-        value={rotorSettings.value[index].rotor}
+        value={currentRotor}
         onChange={handleRotorTypeChange}
         className="enigma-input w-full text-center mb-3 py-1"
       >
-        {Object.keys(ROTORS).map((rotorType) => (
-          <option key={rotorType} value={rotorType}>
-            {rotorType}
-          </option>
-        ))}
+        <option value={currentRotor}>{currentRotor}</option>
+        {availableRotors
+          .filter((rotor) => rotor !== currentRotor)
+          .map((rotorType) => (
+            <option key={rotorType} value={rotorType}>
+              {rotorType}
+            </option>
+          ))}
       </select>
-      
+
       <div className="flex items-center justify-between w-full">
         <span className="enigma-label text-xs">Ring:</span>
         <input
@@ -44,7 +59,7 @@ export default function RotorSelector({index}: RotorSelectorProps) {
           max="25"
           value={rotorSettings.value[index].ringSetting}
           onChange={handleRingSettingChange}
-          className="enigma-input w-12 text-center py-1"
+          className="enigma-input text-center py-1"
         />
       </div>
     </div>

@@ -1,11 +1,11 @@
 import {useEffect, useRef} from "react";
 import {input, output, setInput, setActiveLamp, processChar} from "../../StateManager";
-import RotorSelector from "./RotorSelector";
 import Lampboard from "./Lampboard";
 import Plugboard from "./Plugboard";
 import Controls from "./Controls";
 import KeyboardToggle from "./KeyboardToggle";
 import Reset from "./Reset";
+import RotorSection from "./RotorSection";
 
 export default function EnigmaComponent() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -44,10 +44,8 @@ export default function EnigmaComponent() {
           <h2 className="enigma-header text-xl mb-6">Enigma</h2>
 
           <div className="flex justify-center gap-4 mb-8 mt-2">
-        <Controls modName="rotors"/>
-            <RotorSelector index={0} />
-            <RotorSelector index={1} />
-            <RotorSelector index={2} />
+            <Controls modName="rotors" />
+            <RotorSection />
           </div>
 
           <div className="w-full max-w-3xl mx-auto">

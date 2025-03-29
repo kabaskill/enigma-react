@@ -1,6 +1,6 @@
 import {signal} from "@preact/signals-react";
 import {RotorSetting} from "./data/types";
-import {ALPHABET} from "./data/constants";
+import {ALPHABET, ROTORS} from "./data/constants";
 import {cipher} from "./utils/enigmaHelpers";
 
 export const input = signal("");
@@ -83,6 +83,51 @@ export function setActiveLamp(lamp: string | null) {
   activeLamp.value = lamp;
 }
 
+export function getAvailableRotors(currentRotor?: string): string[] {
+  const usedRotors = new Set(rotorSettings.value.map(setting => setting.rotor));
+  
+  if (currentRotor) {
+    usedRotors.delete(currentRotor);
+  }
+  
+  return Object.keys(ROTORS).filter(rotor => !usedRotors.has(rotor));
+}
+
+export function addRotor() {
+  const availableRotors = getAvailableRotors();
+  if (availableRotors.length === 0) return; 
+  
+  const newRotor: RotorSetting = {
+    rotor: availableRotors[0],
+    ringSetting: 0
+  };
+  
+  rotorSettings.value = [...rotorSettings.value, newRotor];
+}
+
+export function removeRotor(index: number) {
+  if (rotorSettings.value.length <= 1) return; 
+  
+  const newSettings = [...rotorSettings.value];
+  newSettings.splice(index, 1);
+  rotorSettings.value = newSettings;
+}
+
+export function updateRotor(index: number, newRotor: string) {
+  const newSettings = [...rotorSettings.value];
+  
+  const usedRotors = new Set(
+    rotorSettings.value
+      .filter((_, i) => i !== index)
+      .map(setting => setting.rotor)
+  );
+  
+  if (usedRotors.has(newRotor)) return;
+  
+  newSettings[index] = {...newSettings[index], rotor: newRotor};
+  rotorSettings.value = newSettings;
+}
+
 export function processChar(character: string) {
   const char = character.toUpperCase();
   if (ALPHABET.includes(char) || char === " ") {
@@ -97,15 +142,19 @@ export function processChar(character: string) {
     setOutput(newOutput);
     setActiveLamp(cipheredChar.toUpperCase());
 
-    if (char !== " ") {
+    if (char !== " " && rotorSettings.value.length > 0) {
       const newSettings = [...rotorSettings.value];
+      
       newSettings[0].ringSetting = (newSettings[0].ringSetting + 1) % 26;
-      if (newSettings[0].ringSetting === 0) {
-        newSettings[1].ringSetting = (newSettings[1].ringSetting + 1) % 26;
-        if (newSettings[1].ringSetting === 0) {
-          newSettings[2].ringSetting = (newSettings[2].ringSetting + 1) % 26;
+      
+      for (let i = 0; i < newSettings.length - 1; i++) {
+        if (newSettings[i].ringSetting === 0) {
+          newSettings[i+1].ringSetting = (newSettings[i+1].ringSetting + 1) % 26;
+        } else {
+          break; 
         }
       }
+      
       setRotorSettings(newSettings);
     }
   }
