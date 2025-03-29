@@ -1,10 +1,12 @@
-import Enigma from "./components/Enigma";
+import { useSignals } from "@preact/signals-react/runtime";
+import EnigmaComponent from "./components/Enigma/EnigmaComponent";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import MyComponent from "./components/SimpleKeyboard/SimpleComponent";
 import {cn} from "./utils/cn";
 
 function App() {
+  useSignals();
+  
   return (
     <>
       <Header />
@@ -13,8 +15,8 @@ function App() {
           This is a recreation of the famous Enigma machine. While the default version is true to the source, Extended
           Mode more complex features.
         </p>
-        <Enigma />
-        <MyComponent />
+        <EnigmaComponent />
+        {/* <MyComponent /> */}
       </main>
       <Footer />
     </>

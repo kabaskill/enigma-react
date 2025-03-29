@@ -1,5 +1,14 @@
 import {useEffect, useRef} from "react";
-import {useEnigma} from "./EnigmaContext";
+import {
+  input,
+  output,
+  rotorSettings,
+  plugboard,
+  setInput,
+  setOutput,
+  setActiveLamp,
+  setRotorSettings,
+} from "../../StateManager";
 import {cn} from "../../utils/cn";
 import * as data from "../../data/constants";
 import {cipher} from "./enigmaHelpers";
@@ -12,39 +21,38 @@ import Controls from "./Controls";
 const {ALPHABET} = data;
 
 export default function EnigmaComponent() {
-  const {state, dispatch} = useEnigma();
-  const {input, output, rotorSettings, plugboard} = state;
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   function processChar(char: string) {
-    if (ALPHABET.includes(char)) {
-      const cipheredChar = char === " " ? " " : cipher(char, rotorSettings, plugboard);
-      const newInput = input + char;
-      const newOutput = output + cipheredChar;
-      dispatch({type: "SET_INPUT", payload: newInput});
-      dispatch({type: "SET_OUTPUT", payload: newOutput});
-      dispatch({type: "SET_ACTIVE_LAMP", payload: cipheredChar.toUpperCase()});
+    if (ALPHABET.includes(char) || char === " ") {
+      const cipheredChar = char === " " ? " " : cipher(char, rotorSettings.value, plugboard.value);
+      const newInput = input.value + char;
+      const newOutput = output.value + cipheredChar;
+      setInput(newInput);
+      setOutput(newOutput);
+      setActiveLamp(cipheredChar.toUpperCase());
 
-      // Step rotors
-      const newSettings = [...rotorSettings];
-      newSettings[0].ringSetting = (newSettings[0].ringSetting + 1) % 26;
-      if (newSettings[0].ringSetting === 0) {
-        newSettings[1].ringSetting = (newSettings[1].ringSetting + 1) % 26;
-        if (newSettings[1].ringSetting === 0) {
-          newSettings[2].ringSetting = (newSettings[2].ringSetting + 1) % 26;
+      if (char !== " ") {
+        const newSettings = [...rotorSettings.value];
+        newSettings[0].ringSetting = (newSettings[0].ringSetting + 1) % 26;
+        if (newSettings[0].ringSetting === 0) {
+          newSettings[1].ringSetting = (newSettings[1].ringSetting + 1) % 26;
+          if (newSettings[1].ringSetting === 0) {
+            newSettings[2].ringSetting = (newSettings[2].ringSetting + 1) % 26;
+          }
         }
+        setRotorSettings(newSettings);
       }
-      dispatch({type: "SET_ROTOR_SETTINGS", payload: newSettings});
     }
   }
 
   function handleInputChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
     const newInput = event.target.value;
-    if (newInput.length > input.length) {
+    if (newInput.length > input.value.length) {
       const lastChar = newInput.slice(-1).toUpperCase();
       processChar(lastChar);
     } else {
-      dispatch({type: "SET_INPUT", payload: newInput});
+      setInput(newInput);
     }
   }
 
@@ -55,15 +63,15 @@ export default function EnigmaComponent() {
 
   useEffect(() => {
     function handleKeyUp() {
-      dispatch({type: "SET_ACTIVE_LAMP", payload: null});
-    };
+      setActiveLamp(null);
+    }
 
     window.addEventListener("keyup", handleKeyUp);
 
     return () => {
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [dispatch]);
+  }, []);
 
   return (
     <section className={cn("grid grid-cols-3 gap-4")}>
@@ -90,14 +98,14 @@ export default function EnigmaComponent() {
               name="input-area"
               id="input-area"
               className="p-2 border rounded-sm bg-gray-600 min-h-[100px] w-full resize-none"
-              value={input}
+              value={input.value}
               onChange={handleInputChange}
             />
           </label>
         </div>
         <div className="size-full">
           <h2 className="font-bold mb-2">Output:</h2>
-          <p className="p-2 border rounded-sm bg-gray-600 min-h-[100px] overflow-auto text-wrap">{output}</p>
+          <p className="p-2 border rounded-sm bg-gray-600 min-h-[100px] overflow-auto text-wrap">{output.value}</p>
         </div>
       </div>
     </section>

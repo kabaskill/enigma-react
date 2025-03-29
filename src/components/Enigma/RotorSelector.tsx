@@ -1,49 +1,50 @@
-import { useEnigma } from "./EnigmaContext";
-import { cn } from "../../utils/cn";
-import * as data from "../../data/constants";
+import {rotorSettings, setRotorSettings} from "../../StateManager";
+import {ROTORS} from "../../data/constants";
 
-const { ROTORS } = data;
+interface RotorSelectorProps {
+  index: number;
+}
 
-export default function RotorSelector({ index }: { index: number }) {
-    const { state, dispatch } = useEnigma();
+export default function RotorSelector({index}: RotorSelectorProps) {
+  function handleRotorTypeChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    const newSettings = [...rotorSettings.value];
+    newSettings[index].rotor = e.target.value;
+    setRotorSettings(newSettings);
+  }
 
-    const handleRotorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const newSettings = [...state.rotorSettings];
-        newSettings[index].rotor = e.target.value;
-        dispatch({ type: "SET_ROTOR_SETTINGS", payload: newSettings });
-    };
+  function handleRingSettingChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const newSettings = [...rotorSettings.value];
+    newSettings[index].ringSetting = parseInt(e.target.value);
+    setRotorSettings(newSettings);
+  }
 
-    const handleRingSettingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newSettings = [...state.rotorSettings];
-        newSettings[index].ringSetting = parseInt(e.target.value) % 26;
-        dispatch({ type: "SET_ROTOR_SETTINGS", payload: newSettings });
-    };
-
-    return (
-        <div className={cn("flex flex-1 gap-4 items-center border-2 border-gray-700 p-2")}>
-            <select
-                value={state.rotorSettings[index].rotor}
-                onChange={handleRotorChange}
-                className="p-2 rounded-sm h-full"
-            >
-                {Object.keys(ROTORS).map((rotor) => (
-                    <option key={rotor} value={rotor}>
-                        Rotor {rotor}
-                    </option>
-                ))}
-            </select>
-
-            <label className="w-4/5 flex flex-col gap-2">
-                Ring:
-                <input
-                    type="number"
-                    min="0"
-                    max="25"
-                    value={state.rotorSettings[index].ringSetting}
-                    onChange={handleRingSettingChange}
-                    className="px-1 border rounded-sm"
-                />
-            </label>
-        </div>
-    );
+  return (
+    <div className="flex flex-col items-center">
+      <label>
+        Rotor {3 - index}:
+        <select
+          value={rotorSettings.value[index].rotor}
+          onChange={handleRotorTypeChange}
+          className="ml-2 p-1 bg-gray-700 border rounded"
+        >
+          {Object.keys(ROTORS).map((rotorType) => (
+            <option key={rotorType} value={rotorType}>
+              {rotorType}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label className="mt-2">
+        Ring:
+        <input
+          type="number"
+          min="0"
+          max="25"
+          value={rotorSettings.value[index].ringSetting}
+          onChange={handleRingSettingChange}
+          className="ml-2 p-1 w-16 bg-gray-700 border rounded"
+        />
+      </label>
+    </div>
+  );
 }
