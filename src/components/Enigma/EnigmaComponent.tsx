@@ -5,6 +5,7 @@ import Lampboard from "./Lampboard";
 import Plugboard from "./Plugboard";
 import Controls from "./Controls";
 import KeyboardToggle from "./KeyboardToggle";
+import Reset from "./Reset";
 
 export default function EnigmaComponent() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -20,8 +21,7 @@ export default function EnigmaComponent() {
   }
 
   function handleButtonPress(char: string) {
-    processChar(char.toUpperCase());
-    textareaRef.current?.focus();
+    processChar(char);
   }
 
   useEffect(() => {
@@ -41,14 +41,15 @@ export default function EnigmaComponent() {
       {/* Left column */}
       <div className="lg:col-span-2 enigma-panel">
         <div className="flex flex-col items-center">
-          <h2 className="enigma-header text-xl mb-6">Enigma M4</h2>
-          
+          <h2 className="enigma-header text-xl mb-6">Enigma</h2>
+
           <div className="flex justify-center gap-4 mb-8 mt-2">
-            <RotorSelector index={2} />
-            <RotorSelector index={1} />
+        <Controls modName="rotors"/>
             <RotorSelector index={0} />
+            <RotorSelector index={1} />
+            <RotorSelector index={2} />
           </div>
-          
+
           <div className="w-full max-w-3xl mx-auto">
             <Lampboard />
             <KeyboardToggle onButtonPress={handleButtonPress} />
@@ -59,8 +60,8 @@ export default function EnigmaComponent() {
 
       {/* Right column */}
       <div className="enigma-panel flex flex-col gap-6">
-        <Controls />
-        
+        <Reset />
+
         <div className="space-y-2">
           <label htmlFor="input-area" className="enigma-label block">
             Input:
@@ -74,7 +75,7 @@ export default function EnigmaComponent() {
             onChange={handleInputChange}
           />
         </div>
-        
+
         <div className="space-y-2">
           <h2 className="enigma-label">Output:</h2>
           <div className="enigma-input min-h-[120px] overflow-auto text-wrap font-mono">{output.value}</div>

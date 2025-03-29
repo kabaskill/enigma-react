@@ -1,20 +1,18 @@
 export interface RotorSetting {
-    rotor: string;
-    ringSetting: number;
+  rotor: string;
+  ringSetting: number;
 }
 
-export interface PlugboardPair {
-    from: string;
-    to: string;
+export interface Controls {
+  rotors: Control;
+  plugboard: Control;
+  lampboard: Control;
+  keyboard: Control;
+  input: Control;
+  output: Control;
 }
 
-export interface EnigmaState {
-    input: string;
-    output: string;
-    rotorSettings: RotorSetting[];
-    plugboard: PlugboardPair[];
-    activeLamp: string | null;
-    extendedMode: boolean;
+export interface Control {
+  show: boolean;
+  active: boolean;
 }
-
-

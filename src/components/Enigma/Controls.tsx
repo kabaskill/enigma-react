@@ -1,13 +1,38 @@
-import { reset } from "../../StateManager";
+import {Eye, EyeOff, Power, PowerOff} from "lucide-react";
+import {controls} from "../../StateManager";
 
-export default function Controls() {
+type ModuleName = keyof typeof controls.value;
+
+export default function Controls({modName}: {modName: ModuleName}) {
+
   return (
     <div className="flex flex-col gap-2 mb-4">
       <button
-        onClick={reset}
-        className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded"
+        onClick={() => {
+          controls.value = {
+            ...controls.value,
+            [modName]: {
+              ...controls.value[modName],
+              show: !controls.value[modName].show,
+            },
+          };
+        }}
       >
-        Reset Machine
+        {controls.value[modName].show ? <Eye /> : <EyeOff />}
+      </button>
+
+      <button
+        onClick={() => {
+          controls.value = {
+            ...controls.value,
+            [modName]: {
+              ...controls.value[modName],
+              active: !controls.value[modName].active,
+            },
+          };
+        }}
+      >
+        {controls.value[modName].active ? <Power /> : <PowerOff />}
       </button>
     </div>
   );
