@@ -1,33 +1,33 @@
-import  { FunctionComponent, useState, MutableRefObject } from "react";
+import { useState, MutableRefObject } from "react";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 
-interface IProps {
+interface KeyboardWrapperProps {
   onChange: (input: string) => void;
-  keyboardRef: MutableRefObject<typeof Keyboard>;
+  keyboardRef: MutableRefObject<typeof Keyboard> ;
 }
 
-const KeyboardWrapper: FunctionComponent<IProps> = ({
-  onChange,
-  keyboardRef
-}) => {
+export default function KeyboardWrapper({ onChange, keyboardRef }: KeyboardWrapperProps) {
   const [layoutName, setLayoutName] = useState("default");
 
   const onKeyPress = (button: string) => {
     if (button === "{shift}" || button === "{lock}") {
       setLayoutName(layoutName === "default" ? "shift" : "default");
+    } else if (button !== "{space}" && button !== "{bksp}") {
+      // Pass only regular keys to the onChange handler
+      onChange(button);
+    } else if (button === "{space}") {
+      onChange(" ");
     }
   };
 
   return (
     <Keyboard
-      keyboardRef={r => (keyboardRef.current = r)}
+      keyboardRef={(r) => (keyboardRef.current = r)}
       layoutName={layoutName}
-      onChange={onChange}
+      onChange={() => {}} 
       onKeyPress={onKeyPress}
-      onRender={() => console.log("Rendered")}
+      theme="hg-theme-default hg-layout-default myTheme"
     />
   );
-};
-
-export default KeyboardWrapper;
+}

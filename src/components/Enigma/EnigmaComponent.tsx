@@ -3,9 +3,9 @@ import {input, output, setInput, setActiveLamp, processChar} from "../../StateMa
 import {cn} from "../../utils/cn";
 import RotorSelector from "./RotorSelector";
 import Lampboard from "./Lampboard";
-import Keyboard from "./Keyboard";
 import Plugboard from "./Plugboard";
 import Controls from "./Controls";
+import KeyboardToggle from "./KeyboardToggle";
 
 export default function EnigmaComponent() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -24,6 +24,7 @@ export default function EnigmaComponent() {
     processChar(char.toUpperCase());
     textareaRef.current?.focus();
   }
+
   useEffect(() => {
     function handleKeyUp() {
       setActiveLamp(null);
@@ -46,7 +47,7 @@ export default function EnigmaComponent() {
           <RotorSelector index={0} />
         </div>
         <Lampboard />
-        <Keyboard onButtonPress={handleButtonPress} />
+        <KeyboardToggle onButtonPress={handleButtonPress} />
         <Plugboard />
       </div>
 
