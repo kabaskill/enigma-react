@@ -18,7 +18,7 @@ export default function SimpleKeyboard({onKeyPress}: SimpleKeyboardProps) {
   };
 
   return (
-    <div>
+    <div className="text-black">
       <KeyboardWrapper keyboardRef={keyboard} onChange={handleChange} />
     </div>
   );

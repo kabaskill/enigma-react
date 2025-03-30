@@ -1,14 +1,15 @@
 import {X} from "lucide-react";
 import {rotorSettings, setRotorSettings, updateRotor, removeRotor, getAvailableRotors} from "../../StateManager";
 
-interface RotorSelectorProps {
+interface RotorProps {
   index: number;
 }
 
-export default function Rotor({index}: RotorSelectorProps) {
+export default function Rotor({index}: RotorProps) {
   const currentRotor = rotorSettings.value[index].rotor;
-  // Get available rotors plus the currently selected one
   const availableRotors = getAvailableRotors(currentRotor);
+
+  const reverseIndex = rotorSettings.value.length - index - 1;  
 
   function handleRotorTypeChange(e: React.ChangeEvent<HTMLSelectElement>) {
     updateRotor(index, e.target.value);
@@ -16,7 +17,7 @@ export default function Rotor({index}: RotorSelectorProps) {
 
   function handleRingSettingChange(e: React.ChangeEvent<HTMLInputElement>) {
     const newSettings = [...rotorSettings.value];
-    newSettings[index].ringSetting = parseInt(e.target.value);
+    newSettings[reverseIndex].ringSetting = parseInt(e.target.value);
     setRotorSettings(newSettings);
   }
 
@@ -62,7 +63,7 @@ export default function Rotor({index}: RotorSelectorProps) {
           type="number"
           min="0"
           max="25"
-          value={rotorSettings.value[index].ringSetting}
+          value={rotorSettings.value[reverseIndex].ringSetting}
           onChange={handleRingSettingChange}
           className="enigma-input text-center py-1"
         />

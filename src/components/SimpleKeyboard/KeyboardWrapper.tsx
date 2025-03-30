@@ -1,10 +1,10 @@
-import { useState, MutableRefObject } from "react";
+import { useState, RefObject } from "react";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 
 interface KeyboardWrapperProps {
   onChange: (input: string) => void;
-  keyboardRef: MutableRefObject<typeof Keyboard> ;
+  keyboardRef: RefObject<typeof Keyboard> ;
 }
 
 export default function KeyboardWrapper({ onChange, keyboardRef }: KeyboardWrapperProps) {

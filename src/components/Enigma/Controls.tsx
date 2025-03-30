@@ -2,6 +2,7 @@ import {ChevronDown} from "lucide-react";
 import {controls} from "../../StateManager";
 import {Modules} from "../../data/types";
 import {cn} from "../../utils/cn";
+import Tooltip from "../Tooltip";
 
 export default function Controls({modName}: {modName: Modules}) {
   return (
@@ -22,23 +23,27 @@ export default function Controls({modName}: {modName: Modules}) {
       </button> */}
 
       <h2 className="enigma-header">{modName}</h2>
-      <button
-        onClick={() => {
-          controls.value = {
-            ...controls.value,
-            [modName]: {
-              ...controls.value[modName],
-              active: !controls.value[modName].active,
-            },
-          };
-        }}
-        className={cn(
-          "transform transition duration-200 ease-in-out cursor-pointer",
-          controls.value[modName].active ? "rotate-180" : "rotate-0"
-        )}
-      >
-        <ChevronDown />
-      </button>
+
+      <div className="flex items-center gap-2">
+        <Tooltip tooltip={modName} />
+        <button
+          onClick={() => {
+            controls.value = {
+              ...controls.value,
+              [modName]: {
+                ...controls.value[modName],
+                active: !controls.value[modName].active,
+              },
+            };
+          }}
+          className={cn(
+            "transform transition duration-200 ease-in-out cursor-pointer",
+            controls.value[modName].active ? "rotate-180" : "rotate-0"
+          )}
+        >
+          <ChevronDown />
+        </button>
+      </div>
     </div>
   );
 }

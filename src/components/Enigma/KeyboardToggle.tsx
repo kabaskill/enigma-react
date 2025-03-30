@@ -24,7 +24,7 @@ export default function KeyboardToggle({onButtonPress}: KeyboardToggleProps) {
 
   return (
     <ModuleWrapper modName="keyboard">
-      <div className="flex justify-end mb-2">
+      <div className="flex justify-center mb-2">
         <button
           onClick={handleKeyboardChange}
           className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-sm"

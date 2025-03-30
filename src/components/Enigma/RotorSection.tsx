@@ -1,7 +1,7 @@
-import RotorSelector from "./Rotor";
 import {rotorSettings, addRotor, getAvailableRotors} from "../../StateManager";
 import {cn} from "../../utils/cn";
 import ModuleWrapper from "./ModuleWrapper";
+import Rotor from "./Rotor";
 
 export default function RotorSection() {
   const canAddRotor = getAvailableRotors().length > 0;
@@ -10,7 +10,7 @@ export default function RotorSection() {
     <ModuleWrapper modName="rotors">
       <div className="flex w-full gap-4">
         {rotorSettings.value.map((_, index) => (
-          <RotorSelector key={index} index={index} />
+          <Rotor key={index} index={index} />
         ))}
         {canAddRotor && (
           <button
