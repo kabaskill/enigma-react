@@ -18,3 +18,5 @@ export interface Control {
 }
 
 export type Modules = "rotors" | "reflector" | "plugboard" | "lampboard" | "keyboard" | "input" | "output";
+
+export type UIStyle = "modern" | "classic";

@@ -1,5 +1,5 @@
 import {signal} from "@preact/signals-react";
-import {RotorSetting} from "./data/types";
+import {RotorSetting, UIStyle} from "./data/types";
 import {ALPHABET, ROTORS} from "./data/constants";
 import {cipher} from "./utils/enigmaHelpers";
 
@@ -20,6 +20,8 @@ export const controls = signal({
   input: {show: true, active: true},
   output: {show: true, active: true},
 });
+
+export const uiStyle = signal<UIStyle>("modern");
 
 const defaultPlugboardMapping: Record<string, string> = {};
 
